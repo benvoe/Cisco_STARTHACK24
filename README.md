@@ -29,3 +29,24 @@ In this repository you will find three software modules.
 - Folder "graphGenerator" contains a Python project that processes StreamData from CISCO Spaces via Firehose API, and generates the social network graph.
 - Folder "recommederSystem" contains a Python project that analyses the social network graph and generates meeting recommendations.
 - Folder "webexAPI" contains a NodeJS project that enables to send meeting invites automatically via a WebexChat Bot.
+
+
+## Exemplary Code Workflow
+```
+# Record Stream Data
+apiKey = establishConnection()
+fileWriter = startLogging(targetFile="logs.json")
+recordStream(apiKey, fileWriter)
+
+# Filter Stream Data
+fullStream = loadData(targetFile="logs.json")
+filteredStream = filterStreamData(fullStream)
+
+# Convert To User-Timeline
+timelineDF = generateTimeLine(filteredStream2)
+
+# Calculate Social Network Graph
+graph_matrix = generateGraph(timelineDF)
+
+# Hier kommt DEIN PART
+```
