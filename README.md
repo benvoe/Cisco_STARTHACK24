@@ -38,7 +38,7 @@ recommended_meeting = [influential_node, isolated_node]
 ## Structure of this repository
 In this repository you will find three software modules.
 - Folder [graphGenerator](graphGenerator) contains a Python project that processes StreamData from CISCO Spaces via Firehose API, and generates the social network graph.
-- Folder [recommederSystem](recommederSystem) contains a Python project that analyses the social network graph and generates meeting recommendations.
+- Folder [recommenderSystem](recommenderSystem) contains a Python project that analyses the social network graph and generates meeting recommendations.
 - Folder [webexAPI](webexAPI) contains a NodeJS project that enables to send meeting invites automatically via a WebexChat Bot.
 
 
