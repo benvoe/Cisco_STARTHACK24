@@ -54,6 +54,47 @@ def determineDeviceTypes(filteredStream):
         deviceCounter[entry["iotTelemetry"]["deviceInfo"]["deviceType"]] += 1
     return deviceCounter
 
+def filterStreamData(fullStream):
+    # 1. Filter Event Type, "IOT_TELEMETRY"
+    filter_eventType = "IOT_TELEMETRY"
+    filteredStream = []
+    for entry in fullStream:
+        if entry["eventType"]==filter_eventType:
+            filteredStream.append(entry)
+    deviceCounter = determineDeviceTypes(filteredStream)
+    
+    # 2. Filter  Device Type, "IOT_BLE_DEVICE" / This is actually not user smartphone
+    filter_eventType = "IOT_BLE_DEVICE"
+    filteredStream2 = []
+    for entry in filteredStream:
+        if entry["iotTelemetry"]["deviceInfo"]["deviceType"]==filter_eventType:
+            filteredStream2.append(entry)
+        
+    return filteredStream2, deviceCounter
+
+def generateTimeLine(filteredStream2):
+    # 3. Get Unique Device IDs
+    userIDs = []
+    for entry in filteredStream2:
+        if not entry["iotTelemetry"]["deviceInfo"]["deviceMacAddress"] in userIDs:
+            userIDs.append(entry["iotTelemetry"]["deviceInfo"]["deviceMacAddress"])
+            
+    # Create TimeLines
+    timeLine = []
+    for entry in filteredStream2:
+        userID = entry["iotTelemetry"]["deviceInfo"]["deviceMacAddress"]
+        positionLat = entry["iotTelemetry"]["detectedPosition"]["latitude"]
+        positionLon = entry["iotTelemetry"]["detectedPosition"]["longitude"]
+        positionX = entry["iotTelemetry"]["detectedPosition"]["xPos"]
+        positionY = entry["iotTelemetry"]["detectedPosition"]["yPos"]
+        timestampSec = str(entry["recordTimestamp"])[:-3] # in seconds not milliseconds
+        timestamp = datetime.utcfromtimestamp(int(timestampSec)).strftime('%Y-%m-%d %H:%M:%S')
+        timeLine.append([userID, timestamp, timestampSec, positionLat, positionLon, positionX, positionY])
+    timelineDF = pd.DataFrame(timeLine, columns=["userID", "timestamp", "timestampSec", "latitude", "longitude", "x", "y"])
+    timelineDF.to_csv("timeline.csv")
+    
+    return timelineDF
+
 # #############################################################################
 # Main Workflow
 # #############################################################################
