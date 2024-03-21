@@ -59,5 +59,15 @@ timelineDF = generateTimeLine(filteredStream2)
 # Calculate Social Network Graph
 graph_matrix = generateGraph(timelineDF)
 
-# Hier kommt DEIN PART
+# Generate a undirected graph with weighted edges
+graph = create_graph(graph_matrix)
+
+# Calculate the katz centrality for the graph nodes
+katz = centrality_katz(graph)
+
+# Calculate the degree centrality for the graph nodes
+degr = centrality_degree(graph)
+
+# Evalutate the most influencial and most isolated persons
+infl, isol = recommend_meeting(katz, degr)
 ```

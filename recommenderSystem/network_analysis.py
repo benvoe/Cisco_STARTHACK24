@@ -1,51 +1,42 @@
-import requests
-import json
-import socket
-import os
-import sys
 import numpy as np
 import matplotlib.pyplot as plt
 import networkx as nx
 
-m = np.matrix(
-    [[-1, 2, 3, 1], 
-    [-1, -1, 0, 4], 
-    [-1, -1, -1, 7], 
-    [-1, -1, -1, -1]])
+def create_graph(matrix):
+    norm_matrix = matrix / np.max(matrix)
+    return nx.from_numpy_array(norm_matrix)
 
-G = nx.Graph()
+def centrality_katz(graph):
+    katz = nx.katz_centrality(graph, normalized=True, weight="weight")
+    katz_np = np.array(list(katz.values()))
+    return katz_np
 
-# add all edges from the matrix into the graph
+def centrality_degree(graph):
+    degr_np = np.array(list(graph.degree(weight='weight')))[:, 1]
+    degr_np /= np.max(degr_np)
+    return degr_np
 
-G.add_edge("a", "b", weight=0.6)
-G.add_edge("a", "c", weight=0.2)
-G.add_edge("c", "d", weight=0.1)
-G.add_edge("c", "e", weight=0.7)
-G.add_edge("c", "f", weight=0.9)
-G.add_edge("a", "d", weight=0.3)
+def recommend_meeting(katz, degr):
+    influencial = np.argmax(katz)
+    isolated = np.argmin(degr)
+    return influencial, isolated
 
-elarge = [(u, v) for (u, v, d) in G.edges(data=True) if d["weight"] > 0.5]
-esmall = [(u, v) for (u, v, d) in G.edges(data=True) if d["weight"] <= 0.5]
+def visualize_graph(graph, katz, degr):
+    edges = [(u, v) for (u, v, d) in graph.edges(data=True)]
 
-pos = nx.spring_layout(G, seed=7)  # positions for all nodes - seed for reproducibility
+    pos = nx.spring_layout(graph, seed=7)  # positions for all nodes - seed for reproducibility
 
-# nodes
-nx.draw_networkx_nodes(G, pos, node_size=700)
+    # nodes
+    nx.draw_networkx_nodes(graph, pos, node_size=700)
 
-# edges
-nx.draw_networkx_edges(G, pos, edgelist=elarge, width=6)
-nx.draw_networkx_edges(
-    G, pos, edgelist=esmall, width=6, alpha=0.5, edge_color="b", style="dashed"
-)
+    # edges
+    nx.draw_networkx_edges(graph, pos, edgelist=edges, width=6, alpha=0.5)
 
-# node labels
-nx.draw_networkx_labels(G, pos, font_size=20, font_family="sans-serif")
-# edge weight labels
-edge_labels = nx.get_edge_attributes(G, "weight")
-nx.draw_networkx_edge_labels(G, pos, edge_labels)
+    # node labels
+    nx.draw_networkx_labels(graph, pos, font_size=20, font_family="sans-serif")
 
-ax = plt.gca()
-ax.margins(0.08)
-plt.axis("off")
-plt.tight_layout()
-plt.show()
+    ax = plt.gca()
+    ax.margins(0.08)
+    plt.axis("off")
+    plt.tight_layout()
+    plt.show()
