@@ -30,8 +30,8 @@ The calculated centralities and a possible recommendation:
 katz_centrality = [0.29344988 0.29344988 0.32605542 0.2974038  0.2974038  0.33809951 0.34483903 0.32605542 0.29344988 0.34483903]
 degree_centrality = [0.         0.         0.66538462 0.08846154 0.08846154 0.86153846 1.         0.66538462 0.         1.        ]
 
-influential_node = 6
-isolated_node = 0
+influential_node = 7
+isolated_node = 1
 recommended_meeting = [influential_node, isolated_node]
 ```
 
