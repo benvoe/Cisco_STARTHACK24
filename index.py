@@ -1,7 +1,7 @@
 from recommenderSystem import *
 
 # Load weighted social network from CSV
-m = np.genfromtxt("adjacencyMatrix.csv", delimiter=",")
+m = np.genfromtxt("graphGenerator/adjacencyMatrix.csv", delimiter=",")
 
 # Generate a undirected graph with weighted edges
 graph = create_graph(m)
