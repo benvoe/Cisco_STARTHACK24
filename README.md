@@ -3,7 +3,7 @@
 
 # Socialiser - connect people in companies
 
-## A submission to START Hack 2024 - CISCO Challenge
+## A submission by team "BembelEngineers" to START Hack 2024 - CISCO Challenge
 
 Team "BembelEngineers" from TU Darmstadt and ETH Zürich.
 Members: Kevin Riehl, Leon Bernard, Benedikt Völker
