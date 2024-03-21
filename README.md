@@ -27,5 +27,5 @@ Based on WiFi-Localisation data, we learn a social network graph, that is analys
 ## Structure of this repository
 In this repository you will find three software modules.
 - Folder "graphGenerator" contains a Python project that processes StreamData from CISCO Spaces via Firehose API, and generates the social network graph.
-  Folder "recommederSystem" contains a Python project that analyses the social network graph and generates meeting recommendations.
+- Folder "recommederSystem" contains a Python project that analyses the social network graph and generates meeting recommendations.
 - Folder "webexAPI" contains a NodeJS project that enables to send meeting invites automatically via a WebexChat Bot.
