@@ -1,4 +1,5 @@
 from recommenderSystem import *
+from webexAPI import *
 
 # Load weighted social network from CSV
 m = np.genfromtxt("graphGenerator/adjacencyMatrix.csv", delimiter=",")
@@ -17,3 +18,5 @@ infl, isol = recommend_meeting(katz, degr)
 
 # Create a visualization of the weighted social network
 visualize_graph(graph, katz, degr)
+
+send_meeting_suggestion(infl, isol)
